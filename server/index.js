@@ -1,14 +1,22 @@
 const express = require('express')
 const mongoose = require('mongoose');
+const config = require('./config/dev')
+const FakeDB = require('./fake-db')
 
-mongoose.connect('mongodb+srv://root:rootADMIN00@cluster0.iv68w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true});
+const productRoutes = require('./routes/products')
 
+mongoose.connect(config.DB_URI, {
+  useNewUrlParser: true, useUnifiedTopology: true
+}).then(
+  () => {
+    const fakeDB = new FakeDB()
+    fakeDB.initDB()
+  }
+);
 
 const app = express()
 
-app.get('/products', function(req, res){
-  res.json({'success':true})
-})
+app.use('/api/v1/products', productRoutes)
 
 const PORT = process.env.PORT || '3001'
 
