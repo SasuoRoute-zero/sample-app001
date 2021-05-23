@@ -4,7 +4,7 @@ const Product = require('../model/product')
 
 router.get('', function(req, res){
   Product.find({},function(err, foundProducts){
-    return res.json({foundProducts})
+    return res.json(foundProducts)
   })
 })
 
@@ -18,7 +18,7 @@ router.get('/:productId', function(req, res){
       }]})
     }
 
-    return res.json({foundProduct})
+    return res.json(foundProduct)
   })
 })
 
